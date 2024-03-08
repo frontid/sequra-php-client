@@ -1,5 +1,5 @@
 {
-    "name": "sequra/php-client",
+    "name": "frontid/sequra-php-client",
     "description": "PHP client for SeQura API",
     "keywords": [
         "payment",

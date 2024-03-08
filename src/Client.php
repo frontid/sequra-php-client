@@ -13,20 +13,20 @@ class Client
     public static $user = '';
     public static $password = '';
     public static $user_agent = null;
-    private $_endpoint;
-    private $_user;
-    private $_password;
-    private $_user_agent;
-    private $_debug;
-    private $_logfile;
+    protected $_endpoint;
+    protected $_user;
+    protected $_password;
+    protected $_user_agent;
+    protected $_debug;
+    protected $_logfile;
 
-    private $success = false;
-    private $cart_has_changed;
-    private $headers;
-    private $status;
-    private $curl_result = null;
-    private $json = null;
-    private $ch = null;
+    protected $success = false;
+    protected $cart_has_changed;
+    protected $headers;
+    protected $status;
+    protected $curl_result = null;
+    protected $json = null;
+    protected $ch = null;
 
     public function __construct($user = null, $password = null, $endpoint = null, $debug = false, $logfile = null)
     {
@@ -279,9 +279,9 @@ class Client
         var_dump($this->success);
     }
 
-    // Private methods below
+    // protected methods below
 
-    private function initCurl($url)
+    protected function initCurl($url)
     {
         $this->success = $this->json = null;
         $this->ch      = curl_init($url);
@@ -297,7 +297,7 @@ class Client
         $this->headers = '';
     }
 
-    private function verbThePayload($verb, $payload)
+    protected function verbThePayload($verb, $payload)
     {
         $data_string = json_encode(Helper::removeNulls($payload));
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $verb);
@@ -314,7 +314,7 @@ class Client
         $this->sendRequest();
     }
 
-    private function sendRequest()
+    protected function sendRequest()
     {
         $this->success = false;
         if ($this->_debug) {
@@ -330,7 +330,7 @@ class Client
         $this->status      = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
     }
 
-    private function dealWithResponse()
+    protected function dealWithResponse()
     {
         $this->json = json_decode($this->curl_result, true);
         if (200 <= $this->status && $this->status <= 299) {
@@ -342,7 +342,7 @@ class Client
         }
     }
 
-    private function log($msg)
+    protected function log($msg)
     {
         if (!$this->_debug) {
             return;
@@ -354,7 +354,7 @@ class Client
         }
     }
 
-    private function storeHeaders($ch, $header)
+    protected function storeHeaders($ch, $header)
     {
         $this->headers .= $header;
 
